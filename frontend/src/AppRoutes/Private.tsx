@@ -142,6 +142,7 @@ function PrivateRoute({ children }: PrivateRouteProps): JSX.Element {
 				}
 			} catch (error) {
 				// something went wrong
+				console.error(error);
 				history.push(ROUTES.SOMETHING_WENT_WRONG);
 			}
 		})();
