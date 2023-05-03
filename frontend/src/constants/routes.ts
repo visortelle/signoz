@@ -5,6 +5,7 @@ const ROUTES = {
 	SERVICE_MAP: '/service-map',
 	TRACE: '/trace',
 	TRACE_DETAIL: '/trace/:id',
+	TRACE_EXPLORER: '/trace-explorer',
 	SETTINGS: '/settings',
 	INSTRUMENTATION: '/get-started',
 	USAGE_EXPLORER: '/usage-explorer',

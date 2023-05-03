@@ -10,10 +10,9 @@ import {
 	MenuOutlined,
 	SettingOutlined,
 } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
 import ROUTES from 'constants/routes';
 
-const menus: SidebarMenu[] = [
+const menus: MenuItem[] = [
 	{
 		Icon: BarChartOutlined,
 		to: ROUTES.APPLICATION,
@@ -23,6 +22,13 @@ const menus: SidebarMenu[] = [
 		Icon: MenuOutlined,
 		to: ROUTES.TRACE,
 		name: 'Traces',
+		children: [
+			{
+				Icon: MenuOutlined,
+				name: 'Trace Explorer',
+				to: ROUTES.TRACE_EXPLORER,
+			},
+		],
 	},
 	{
 		Icon: AlignLeftOutlined,
@@ -73,12 +79,12 @@ const menus: SidebarMenu[] = [
 	},
 ];
 
-interface SidebarMenu {
+export interface MenuItem {
 	to: string;
 	name: string;
 	Icon: typeof ApiOutlined;
 	tags?: string[];
-	children?: Required<MenuProps>['items'][number][];
+	children?: MenuItem[];
 }
 
 export default menus;

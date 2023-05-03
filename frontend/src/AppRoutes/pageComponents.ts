@@ -23,6 +23,11 @@ export const TraceDetail = Loadable(
 	() => import(/* webpackChunkName: "TraceDetail Page" */ 'pages/TraceDetail'),
 );
 
+export const TraceExplorerPage = Loadable(
+	() =>
+		import(/* webpackChunkName: "TraceExplorerPage" */ 'pages/TraceExplorer'),
+);
+
 export const UsageExplorerPage = Loadable(
 	() => import(/* webpackChunkName: "UsageExplorerPage" */ 'modules/Usage'),
 );

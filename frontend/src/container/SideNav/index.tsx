@@ -1,5 +1,6 @@
 import { CheckCircleTwoTone, WarningOutlined } from '@ant-design/icons';
-import { Menu, Space, Typography } from 'antd';
+import { Menu, MenuProps, Space, Typography } from 'antd';
+import { ItemType } from 'antd/es/menu/hooks/useItems';
 import getLocalStorageKey from 'api/browser/localstorage/get';
 import { IS_SIDEBAR_COLLAPSED } from 'constants/app';
 import ROUTES from 'constants/routes';
@@ -14,7 +15,7 @@ import AppReducer from 'types/reducer/app';
 
 import { routeConfig, styles } from './config';
 import { getQueryString } from './helper';
-import menus from './menuItems';
+import menus, { MenuItem } from './menuItems';
 import Slack from './Slack';
 import {
 	RedDot,
@@ -49,9 +50,9 @@ function SideNav(): JSX.Element {
 	const onClickHandler = useCallback(
 		(to: string) => {
 			const params = new URLSearchParams(search);
-			const avialableParams = routeConfig[to];
+			const availableParams = routeConfig[to];
 
-			const queryString = getQueryString(avialableParams, params);
+			const queryString = getQueryString(availableParams, params);
 
 			if (pathname !== to) {
 				history.push(`${to}?${queryString.join('&')}`);
@@ -99,29 +100,36 @@ function SideNav(): JSX.Element {
 	];
 
 	const currentMenu = useMemo(
-		() => menus.find((menu) => pathname.startsWith(menu.to)),
+		() =>
+			menus.find(
+				(menu) =>
+					menu.to === pathname ||
+					menu.children?.find((child) => child.to === pathname),
+			),
 		[pathname],
 	);
 
-	const items = [
-		...menus.map(({ to, Icon, name, tags, children }) => ({
+	const renderMenuItem = useCallback(
+		({ to, Icon, name, tags, children }: MenuItem): ItemType => ({
 			key: to,
 			icon: <Icon />,
-			onClick: (): void => onClickHandler(to),
+			onClick: (menuItem): void => onClickHandler(menuItem.key),
 			label: (
 				<Space>
 					<div>{name}</div>
-					{tags &&
-						tags.map((e) => (
-							<Tags key={e}>
-								<Typography.Text>{e}</Typography.Text>
-							</Tags>
-						))}
+					{tags?.map((e) => (
+						<Tags key={e}>
+							<Typography.Text>{e}</Typography.Text>
+						</Tags>
+					))}
 				</Space>
 			),
-			children,
-		})),
-	];
+			children: children?.map(renderMenuItem),
+		}),
+		[onClickHandler],
+	);
+
+	const items: MenuProps['items'] = menus.map(renderMenuItem);
 
 	const sidebarItems = (props: SidebarItem, index: number): SidebarItem => ({
 		key: `${index}`,

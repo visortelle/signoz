@@ -28,6 +28,7 @@ import {
 	SomethingWentWrong,
 	StatusPage,
 	TraceDetail,
+	TraceExplorerPage,
 	TraceFilter,
 	UnAuthorized,
 	UsageExplorerPage,
@@ -138,6 +139,13 @@ const routes: AppRoutes[] = [
 		component: TraceFilter,
 		isPrivate: true,
 		key: 'TRACE',
+	},
+	{
+		path: ROUTES.TRACE_EXPLORER,
+		exact: true,
+		component: TraceExplorerPage,
+		isPrivate: true,
+		key: 'TRACE_EXPLORER',
 	},
 	{
 		path: ROUTES.CHANNELS_NEW,
